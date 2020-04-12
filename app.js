@@ -10,6 +10,9 @@ todoList.addEventListener("click", deleteCheck);
 filterOption.addEventListener("click", filterTodo);
 //Functions
 function addTodo(event) {
+  if (todoInput.value.replace(" ", "") == "") {
+    return alert("The todo must have a text");
+  }
   //Prevent form from submitting
   event.preventDefault();
   //Todo DIV
@@ -40,20 +43,33 @@ function addTodo(event) {
 
 function deleteCheck(e) {
   const item = e.target;
+  const todoDiv = item.parentElement;
   if (item.classList[0] === "trash-btn") {
-    const todo = item.parentElement;
     // Animation
-    todo.classList.add("fall");
-    removeLocalTodos(todo.innerText);
-    todo.addEventListener("transitionend", function () {
-      todo.remove();
+    todoDiv.classList.add("fall");
+    removeLocalTodos(todoDiv.innerText);
+    todoDiv.addEventListener("transitionend", function () {
+      todoDiv.remove();
     });
   }
 
   // Check mark
   if (item.classList[0] === "complete-btn") {
-    const todo = item.parentElement;
-    todo.classList.toggle("completed");
+    todoDiv.classList.toggle("completed");
+    let todos;
+    if (localStorage.getItem("todos") === null) {
+      todos = [];
+    } else {
+      todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    const indexTodo = todos.findIndex(
+      (todo) => todoDiv.innerText === todo.todo
+    );
+    todos[indexTodo] = {
+      todo: todos[indexTodo].todo,
+      completed: !todos[indexTodo].completed,
+    };
+    localStorage.setItem("todos", JSON.stringify(todos));
   }
 }
 
@@ -90,12 +106,16 @@ function saveLocalTodo(todo) {
   } else {
     todos = JSON.parse(localStorage.getItem("todos"));
   }
-
-  todos.push(todo);
+  todos.push({
+    todo,
+    completed: false,
+  });
+  console.log(todos);
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 function getTodos() {
+
   let todos;
   if (localStorage.getItem("todos") === null) {
     todos = [];
@@ -108,8 +128,11 @@ function getTodos() {
     todoDiv.classList.add("todo");
     //Create LI
     const newTodo = document.createElement("li");
-    newTodo.innerText = todo;
+    newTodo.innerText = todo.todo;
     newTodo.classList.add("todo-item");
+    if (todo.completed == true) {
+      todoDiv.classList.toggle("completed");
+    }
     todoDiv.appendChild(newTodo);
     //CHECK MARK BUTTON
     const completedButton = document.createElement("button");
@@ -135,6 +158,6 @@ function removeLocalTodos(todo) {
   }
   console.log(todo);
   const indexTodo = todos.indexOf(todo);
-  todos.splice(indexTodo,1);
-  localStorage.setItem('todos',JSON.stringify(todos));
+  todos.splice(indexTodo, 1);
+  localStorage.setItem("todos", JSON.stringify(todos));
 }
