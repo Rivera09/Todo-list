@@ -3,6 +3,7 @@ const todoInput = document.querySelector(".todo-input");
 const todoButton = document.querySelector(".todo-button");
 const todoList = document.querySelector(".todo-list");
 const filterOption = document.querySelector(".filter-todo");
+const body = document.querySelector("#body");
 //Event listeners
 document.addEventListener("DOMContentLoaded", getTodos);
 todoButton.addEventListener("click", addTodo);
@@ -115,7 +116,7 @@ function saveLocalTodo(todo) {
 }
 
 function getTodos() {
-
+  setTheme();
   let todos;
   if (localStorage.getItem("todos") === null) {
     todos = [];
@@ -148,7 +149,6 @@ function getTodos() {
     todoList.appendChild(todoDiv);
   });
 }
-
 function removeLocalTodos(todo) {
   let todos;
   if (localStorage.getItem("todos") === null) {
@@ -160,4 +160,29 @@ function removeLocalTodos(todo) {
   const indexTodo = todos.indexOf(todo);
   todos.splice(indexTodo, 1);
   localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function setTheme(){
+  const themes = [
+    {
+      name:'Just black',
+      main: 'black',
+      secodary: 'white'
+    },
+    {
+      name:'Test',
+      main:'linear-gradient(120deg,#cd84f1,#7d5fff)',
+      secodary:'#7158e2'
+    },
+    {
+      name:'Test 2',
+      main:'linear-gradient(120deg,#12CBC4,#C4E538)'
+    },
+    {
+      name:'Test 3',
+      main:'linear-gradient(120deg,#f6d365,#fda085)'
+    }
+  ]
+  // const index = Math.round(Math.random()*4);
+  // body.style.background = themes[0].main;
 }
