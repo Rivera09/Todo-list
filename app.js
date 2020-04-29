@@ -166,23 +166,38 @@ function setTheme(){
   const themes = [
     {
       name:'Just black',
-      main: 'black',
-      secodary: 'white'
+      background: 'black',
+      primary: '#3d3d3d',
+      secodary: 'white',
+      completed: '#2f3640',
+      delete:'#240000'
     },
     {
-      name:'Test',
-      main:'linear-gradient(120deg,#cd84f1,#7d5fff)',
-      secodary:'#7158e2'
+      name:'Bluish purple',
+      background:'linear-gradient(120deg,#cd84f1,#7d5fff)',
+      primary: '#7158e2',
+      secodary:'',
+      completed:'#00d2d3',
+      delete:'#192a56'
     },
     {
-      name:'Test 2',
-      main:'linear-gradient(120deg,#12CBC4,#C4E538)'
+      name:'Green lemon',
+      background:'linear-gradient(120deg,#12CBC4,#C4E538)',
+      primary:'#d35400',
+      secundary:'white',
+      completed:'rgb(78, 236, 78)',
+      delete:'red'
     },
     {
-      name:'Test 3',
-      main:'linear-gradient(120deg,#f6d365,#fda085)'
+      name:'Warm orange',
+      background:'linear-gradient(120deg,#f6d365,#fda085)',
+      primary:'#f39c12',
     }
   ]
-  // const index = Math.round(Math.random()*4);
-  // body.style.background = themes[0].main;
+  let index = 2;
+  document.documentElement.style.setProperty('--background-color',themes[index].background);
+  document.documentElement.style.setProperty('--primary-color',themes[index].primary);
+  // document.documentElement.style.setProperty('--completed-color',themes[index].completed);
+  // document.documentElement.style.setProperty('--delete-color',themes[index].delete);
+  
 }
